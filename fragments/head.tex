@@ -1,0 +1,170 @@
+\documentclass[a4paper,12pt,DIV15]{scrartcl}
+
+% meta data
+\author{Martchus}
+\title{Summary: \LaTeX}
+\date{\today}
+\subtitle{Most useful \LaTeX{} syntax and features summarized in one document}
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\title{\large{Summary} \\ ~ \\ \huge{\LaTeX} \\ ~}
+\makeatother
+
+% page geometry
+\usepackage{geometry}
+\geometry{a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm}
+
+% language and hyphenation
+\usepackage[english]{babel}
+\selectlanguage{\english}
+
+% text encoding
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% placeholder text
+\usepackage{lipsum}
+
+% named references
+\usepackage{nameref}
+
+% colors
+\usepackage{xcolor}
+
+% math
+\usepackage{amsmath}
+
+% remove indention
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+
+% line spacing
+\usepackage{setspace}
+\onehalfspacing
+
+% \BibTeX
+\usepackage{dtklogos}
+
+% \minibox
+\usepackage{minibox}
+
+% \makecell
+\usepackage{makecell}
+
+% \ovalbox, \shadowbox, \doublebox, ...
+\usepackage{fancybox}
+
+% allows to modify appearance of headings (\sectionfont{}, ...)
+\usepackage{sectsty}
+
+% special characters
+\usepackage{textcomp}
+
+% euro symbol
+\usepackage[official,right]{eurosym}
+
+% commands for Pi fonts (Dingbats, Symbol, etc.)
+\usepackage{pifont}
+
+% comparsion operations
+\usepackage{ifthen}
+
+% space (after new commands)
+\usepackage{xspace}
+
+% bookmarks, hyperlinks, PDF settings
+\usepackage{hyperref}
+\hypersetup {
+    pdftitle = {\thetitle},
+    pdfauthor = {\theauthor},
+    pdfkeywords = {LaTeX, summary, commands},
+    colorlinks = {true},
+    linkcolor = {blue},
+    urlcolor = {blue}
+}
+
+% code formatting (lstlisting environment)
+\usepackage{listings}
+
+% backslash shortcut
+\newcommand{\bs}{\textbackslash}
+
+% reference shortcut
+\newcommand{\fullref}[1]{\ref{#1}:~\nameref{#1}}
+
+% no vertical spacing between paragraphs
+\parskip 1ex
+
+% table environments for command tables
+\usepackage{tabularx}
+\usepackage{array}
+
+\newcolumntype{$}{>{\ttfamily \global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+    #1\ignorespaces
+}
+
+\newenvironment{cmdtab}
+{
+    \tabularx{\textwidth}{$l ^X}
+        \rowstyle{\normalfont\bfseries} Command & Effect \\
+}{
+    \endtabularx
+}
+
+\newenvironment{cmdtabx}[2]
+{
+    \tabularx{\textwidth}{$l ^X}
+        \rowstyle{\normalfont\bfseries} #1 & #2 \\
+}{
+    \endtabularx
+}
+
+\newenvironment{cmdtabxx}[3]
+{
+    \tabularx{\textwidth}{$l $l $l}
+        \rowstyle{\normalfont\bfseries} #1 & \rowstyle{\normalfont\bfseries} #2 & \rowstyle{\normalfont\bfseries} #3 \\
+}{
+    \endtabularx
+}
+
+\newenvironment{cmdtabxy}[3]
+{
+    \tabularx{\textwidth}{$l $l ^X}
+        \rowstyle{\normalfont\bfseries} #1 & \rowstyle{\normalfont\bfseries} #2 & \rowstyle{\normalfont\bfseries} #3 \\
+}{
+    \endtabularx
+}
+
+\newenvironment{cmdtabxxx}[4]
+{
+    \tabularx{\textwidth}{$l $l $l $l}
+        \rowstyle{\normalfont\bfseries} #1 & \rowstyle{\normalfont\bfseries} #2 & \rowstyle{\normalfont\bfseries} #3 & \rowstyle{\normalfont\bfseries} #4 \\
+}{
+    \endtabularx
+}
+
+\newenvironment{cmdtabxxxx}[2]
+{
+    \tabularx{\textwidth}{$l $l}
+        \rowstyle{\normalfont\bfseries} #1 & \rowstyle{\normalfont\bfseries} #2 \\
+}{
+    \endtabularx
+}
+
+\newenvironment{cmdtabxxxxx}[5]
+{
+    \tabularx{\textwidth}{$l l l l l}
+        \rowstyle{\normalfont\bfseries} #1 & \rowstyle{\normalfont\bfseries} #2 & \rowstyle{\normalfont\bfseries} #3 & \rowstyle{\normalfont\bfseries} #4 \rowstyle{\normalfont\bfseries} #5 \\
+}{
+    \endtabularx
+}
+
+\definecolor{codebox_bg}{HTML}{D9DCFF}
+\definecolor{codebox_comment}{HTML}{004D25}
+\newcommand{\codebox}[1]{\colorbox{codebox_bg}{\scriptsize\ttfamily\minibox{#1}}}
+
+% include custom commands
+\input{fragments/user_config}

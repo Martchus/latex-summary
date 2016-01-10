@@ -1,0 +1,826 @@
+% head
+\input{fragments/head}
+
+% contents
+\begin{document}
+
+\maketitle
+
+\clearpage
+
+\begingroup
+\def\addvspace#1{}
+\tableofcontents
+\endgroup
+
+\clearpage
+
+\section{Document-wide commands}    
+    \begin{cmdtab}
+        \bs documentclass[options]\{class\} & sets document class (article/report/book/letter/scrartcl\dots) and related options (10pt\dots{}12pt, fleqn/leqno, titlepage/notitlepage, twocolumn/twoside, a4paper/a5paper, draft, landscape) \\
+        \bs usepackage[options]\{pkgname\} & imports commands from the specified package \\
+        \bs input\{file\} & includes the specified file \\
+        \bs include\{file\} & includes the specified file (new page) \\
+        \bs author\{val\}, \bs title\{val\}, \bs date\{val\} & sets metadata (used by \bs maketitle) \\
+        \bs begin\{document\}, \bs end\{document\} & defines boundries of the actual text
+    \end{cmdtab}
+    
+    \subsection{Important packages}
+        \begin{cmdtab}
+            \bs usepackage[lng]\{babel\} & provides \texttt{\bs selectlanguage\{lng\}}, \texttt{\bs foreignlanguage\{lng\}\{text\}} which affect commands like \texttt{\bs today} \\
+            \minibox{\bs usepackage[latin1/utf8/\dots] \\ ~~\{inputenc\}} & sets the specified input encoding \\
+            \bs usepackage[T1/\dots]\{fontenc\} & sets the specified font encoding \\
+            \bs usepackage\{nameref\} & provides named references via \texttt{\bs nameref\{\}}, see \fullref{subsec:labels} \\
+            \bs usepackage\{amsmath\} & provides \fullref{section:math} \\
+            \bs usepackage\{caption\} & provides \texttt{\bs captionof\{ \}}, see \fullref{section:floating_environments} \\
+            \bs usepackage\{xcolor\} & provides colors (see \fullref{subsec:notations_colors}) \\
+            \bs usepackage\{hyperref\} & provides bookmarks, hyperlinks and PDF specific settings, see also \fullref{section:pdf_tweaks}. \\
+            \bs usepackage\{geometry\} & allows to set page geometry (see \fullref{subsec:geometry}) \\
+            \bs usepackage\{microtype\} & tunes line breaks
+        \end{cmdtab}
+    
+    \subsection{Geometry}
+        \label{subsec:geometry}
+        With the \texttt{geometry} package page geometry can be set using \texttt{\bs geometry\{a4paper,left=45mm,\dots\}}.
+        
+        \begin{cmdtabx}{Option}{Effect}
+            left, right, bottom, top & specify borders \\
+            bindingoffset & specifies the binding offset \\
+            includehead, includefoot & whether head and foot nodes include borders \\
+        \end{cmdtabx}
+
+\section{Escaping}
+    \label{section:escaping}
+    The following characters have special meaning and must be escaped: \framebox[1.1\width][c]{\texttt{\& \% \$ \# \_ \{ \} \textasciitilde \textasciicircum \textbackslash}}
+    \begin{cmdtabxxxx}{Character(s)}{Escape with}
+        \& \% \$ \# \_ \{ \} & \textnormal{backslash, eg. }\bs\& \\
+        \textasciitilde & \bs textasciitilde \\
+        \textasciicircum & \bs textasciicircum \\
+        \textbackslash & \bs textbackslash
+    \end{cmdtabxxxx}
+
+    \paragraph{Notes}{
+        \begin{itemize}
+            \item Defining shortcuts might be useful, eg.: \texttt{\bs newcommand\{\bs bs\}\{\bs textbackslash\}}
+            \item For including source code, see section \ref{section:including_source_code}. For special characters, see section \ref{subsec:special_characters}.
+            \item The following characters mustn't be escaped: \framebox[1.1\width][c]{[ ] ( ) / ! ? * :}
+            \item The following special characters can be used as label/color IDs (\textit{without} escaping): \framebox[1.3\width][c]{\_ :}
+        \end{itemize}
+    }
+
+\section{Document structure}
+    \begin{cmdtab}
+        \bs part\{title\} & level -1 in book and report, level 0 in article \\
+        \bs chapter\{title\} & level 0 in book and report \\
+        \bs section\{title\} & level 1 \\
+        \bs subsection\{title\} & level 2 \\
+        \bs subsubsection\{title\} & level 3 \\
+        \bs paragraph\{title\} & level 4 \\
+        \bs subparagraph\{title\} & level 5 \\
+        \bs appendix & starts the appendix \\
+        \bs maketitle & generates the cover sheet \\
+        \bs tableofcontents & generates the table of contents (see also \fullref{subsec:man_toc})
+    \end{cmdtab}
+    
+    \subsection{Labels/anchors and references}
+        \label{subsec:labels}
+        \begin{cmdtab}
+            \bs label\{anchor\_id\} & defines an anchor \\
+            \bs ref\{anchor\_id\} & prints the index of the specified anchor \\
+            \bs nameref\{anchor\_id\} & prints the name of the specified anchor \\
+            \bs pageref\{anchor\_id\} & prints the page of the specified anchor \\
+        \end{cmdtab}
+
+        It might be useful to combine \texttt{\bs ref} and \texttt{\bs nameref}: \\
+        \texttt{\bs newcommand\{\bs fullref\}[1]\{\bs ref\{\#1\}:\textasciitilde\bs nameref\{\#1\}\}}
+    
+    \subsection{Manipulate the table of contents}
+        \label{subsec:man_toc}
+        \begin{cmdtab}
+            \bs section[toc\_title]\{title\} & sets a toc-specific title \\
+            \bs section*\{title\} & disable index and appearance in toc \\
+            \bs addcontentsline\{toc\}\{section\_level\}\{text\_entry\} & adds an additional entry
+        \end{cmdtab}
+
+    \subsection{Manual breaks}
+        \begin{itemize}
+            \item Manual line breaks can be inserted using \texttt{\bs\bs} or \texttt{\bs newline}. For a line break in a table cell a \texttt{\bs minibox} from
+                  the \texttt{minibox} package can be used.
+            \item A new paragraph is achieved by inserting an empty line or using the \texttt{\bs par} command.
+            \item A page break can be inserted using \texttt{\bs newpage}.
+            \item A page break can be inserted using \texttt{\bs clearpage} which also forces \LaTeX{} to print all remaining \fullref{section:floating_environments}.
+        \end{itemize}
+    
+    \subsection{Example}
+        \lstinputlisting[
+            language={[LaTeX]tex},
+            basicstyle={\ttfamily\footnotesize},
+            keywordstyle={\color{blue}},
+            backgroundcolor={\color{codebox_bg}},
+            commentstyle={\color{codebox_comment}},
+            numbers={left}
+        ]{
+            fragments/example_doc.tex
+        }
+
+\section{Spacing and ellipsis}
+
+    \subsection{Spacing between lines}
+        These commands requires the \texttt{setspace} package.
+
+        \begin{cmdtab}
+            \bs singlespacing & sets line spacing to 1.0 \\
+            \bs onehalfspacing & sets line spacing to 1.5 \\
+            \bs doublespacing & sets line spacing to 2.0 \\
+            \minibox{\bs begin\{singlespace\}, \\ \bs begin\{onehalfspace\}, \dots, \\ \bs begin\{spacing\}\{factor\}} & begins environmenmt with specific line spacing \\
+        \end{cmdtab}
+    
+    \subsection{Paragraphs}
+        \begin{itemize}
+            \item Spacing can be controlled with \texttt{\bs setlength\{\bs parskip\}\{spacing\}}.
+            \item Indention can be controlled with \texttt{\bs setlength\{\bs parindent\}\{indent\}}.
+        \end{itemize}
+
+    \subsection{Miscellaneous}
+        \begin{cmdtab}
+            \bs dots & inserts ellipsis: \dots \\
+            \bs hspace\{space\} & inserts horizontal space \\
+            \bs vspace\{space\} & inserts vertical space \\
+            \bs hfill \bs hrulefill \bs dotfill & horizontal filling \\
+            \bs vfill & vertical filling \\
+        \end{cmdtab}
+
+\section{Alignment}
+    \begin{cmdtabx}{Environment}{Alignment}
+        flushleft & left \\
+        flushright & right \\
+        center & center \\
+    \end{cmdtabx}
+
+\section{Quotes and footnotes}
+    \begin{cmdtab}
+        \bs begin\{quote\} \dots \bs end\{quote\} & wraps a quote \\
+        \bs footnote\{text\} & makes a footnote with the specified text
+    \end{cmdtab}
+
+\section{Floating environments}
+    \label{section:floating_environments}
+    
+    \begin{cmdtabx}{Environment}{Use}
+        table & to include, see \fullref{subsec:floating_tables} \\
+        figure & to include graphics with \texttt{\bs includegraphics}, see \fullref{section:graphics} \\
+        lstlisting & to include source code, see \fullref{section:including_source_code}
+    \end{cmdtabx}
+
+    \subsection{Preferred position}
+        \label{subsec:floating_position}
+        \begin{cmdtabx}{Option}{Effect}
+            h & here \\
+            t & top of page \\
+            b & bottom of page \\
+            p & separate page \\
+            ! & increases the priotiry
+        \end{cmdtabx}
+
+        These options can be specified as usual in square brackets and might be combined.
+
+    \subsection{Useful commands in floating environments}
+        \begin{cmdtab}
+            \bs centering & centers the environment \\
+            \bs caption[toc\_text]\{text\} & inserts a description for the figure/table/\dots \\
+            \bs label & see \fullref{subsec:labels}, must be \textbf{after} the \texttt{\bs caption} command \\
+            \minibox{\bs captionof\{floating\_env\_type\} \\ ~ [toc\_text]\{text\}} & same as \texttt{\bs caption} but allows to specify the type of the floating environment, requires the \texttt{caption} package
+        \end{cmdtab}
+
+    \subsection{Parameter}
+        \begin{cmdtabx}{Command}{Meaning}
+            \bs topfraction & fraction for floats at the beginning of a page \\
+            \bs bottomfraction & fraction for floats at the end of a page \\
+            \bs textfraction & minimum fraction for text on a a page
+        \end{cmdtabx}
+
+        Parameter can be changed using eg. \texttt{\bs renewcommand\{\bs topfraction\}\{0.6\}}.
+
+\section{Notations}
+
+    \subsection{Units}
+        \begin{itemize}
+            %\setlength\itemsep{-1em}
+            \item \texttt{mm, cm, in} \dots : milimeter, centimeter, inch
+            \item \texttt{pt} : 0.3515 mm
+            \item \texttt{pc} : 12 pt
+            \item \texttt{ex}, \texttt{em} : height of small \texttt{x}, width of capital \texttt{M}
+            \item \texttt{\bs baselineskipt} : height of a line
+        \end{itemize}
+
+    \subsection{Colors}
+        \label{subsec:notations_colors}
+        \begin{itemize}
+            %\setlength\itemsep{-1em}
+            \item require the package \texttt{xcolor}.
+            \item pre-defined colors: \texttt{\textcolor{blue}{blue} \textcolor{violet}{violet} \textcolor{green}{green} \textcolor{red}{red} ...}
+            \item custom colors: \texttt{\bs definecolor\{custom\_name\}\{scheme\}\{values\} }
+                \begin{itemize}
+                    %\vspace{-5mm}
+                    %\setlength\itemsep{-1em}
+                    \item schemes: \texttt{rgb cmyk HTML} \dots
+                    \definecolor{red1}{HTML}{AA0000} \definecolor{blue1}{rgb}{0.1,0.1,1.0}
+                    \item examples: \texttt{ \textcolor{red1}{\bs definecolor\{red1\}\{HTML\}\{AA0000\}} \\
+                        \phantom{examples: } \textcolor{blue1}{\bs definecolor\{blue1\}\{rgb\}\{0.1,0.1,1.0\}} }
+                \end{itemize}
+            \item mixing colors: \texttt{ \textcolor{red!50}{red!50} \textcolor{blue!70!green!50}{blue!70!green!50} }
+        \end{itemize}
+
+\section{Mathematical stuff}
+    \label{section:math}
+    The \texttt{amsmath} package must be included for most commands and environments.
+
+    \subsection{Environments}
+        \begin{cmdtab}
+            \$ some formula \$ & defines an inline formula \\
+            \bs begin\{equation\} \dots{} \bs end\{equation\} & defines a \textit{single}-line formula block \\
+            \bs begin\{align\} \dots{} \bs end\{align\} & defines a \textit{multi}-line formula block
+        \end{cmdtab}
+
+    \subsection{Mathematical notations}
+        \label{subsec:math_notations}
+        \begin{cmdtab}
+            \bs frac\{numerator\}\{denominator\} & fraction: $ \frac{\mathrm{numerator}}{\mathrm{denominator}} $\\
+            \bs sqrt[n]\{a\} & root: $ \sqrt[n]{a} $\\
+            \bs cos(45\^\{\bs circ\}) = \bs cos(\bs pi/4) & $ \cos(45^{\circ}) = \cos(\pi/4) $ \\
+            \^ \{up\} \_\{down\} & $ ^{up} _{down} $ \\
+            \bs sum\_\{n=1\}\^\{12\}\{f(x\_n)\} & sum: $ \sum_{n=1}^{12}{f(x_n)} $ \\
+            \bs prod \dots & product: $ \prod_{}^{} \dots $ \\
+            \bs int \dots & integral: $ \int_{}^{} \dots $ \\
+            \bs iint \dots & integral of integral: $ \iint_{}^{} \dots $ \\
+            \bs lim \dots & limes: $ \lim \dots $ \\
+            \bs left( \bs right) & scaled brackets (can also be used with \texttt{\{\} [] <>}) \\
+            \bs bs begin\{cases\} \dots{} \bs end\{cases\} & defines cases, eg. $
+                \begin{cases}
+                        p & p \neq 0 \\
+                        \infty & p = 0 \\
+                \end{cases} $
+        \end{cmdtab}
+
+    \subsection{Letters and symbols}
+        \label{subsec:math_symbols}
+        \begin{cmdtab}
+            \bs alpha \bs beta & greek letters: $ \alpha , \beta $ \\
+            \bs neq \bs leq \bs geq & equation signs: $ \neq \leq \geq $ \\
+            \bs in \bs notin & (not) in set: $ \in \notin $ \\
+            \bs infty & infinity: $ \infty $ \\
+            \bs phantom \{ \} & spacing in size of argument \\
+            \bs mathrm\{ \} & roman font in forumal \\
+            \minibox{\bs leftarrow \bs rightarrow \\ \bs longleftarrow \bs leftrightarrow} & arrows: $ \leftarrow \rightarrow \longleftarrow \leftrightarrow $ \\
+            \bs overrightarrow\{x\} & $ \overrightarrow{x} $
+        \end{cmdtab}
+
+    \subsection{Spacing}
+        \begin{cmdtabx}{Command}{Space}
+            \bs, \bs thinspace & $ \rightarrow \thinspace \leftarrow $ \\
+            \bs: \bs medspace & $ \rightarrow \medspace \leftarrow $ \\
+            \bs; \bs thickspace & $ \rightarrow \thickspace \leftarrow $ \\
+            \bs enskip & $ \rightarrow \enskip \leftarrow $ \\
+            \bs quad & $ \rightarrow \quad \leftarrow $ \\
+            \bs qquad & $ \rightarrow \qquad \leftarrow $ \\
+            \bs! \bs negthinspace & $ \rightarrow \negthinspace \leftarrow $ \\
+            \bs negmedspace & $ \rightarrow \negmedspace \leftarrow $ \\
+            \bs negthickspace & $ \rightarrow \negthickspace \leftarrow $ \\
+        \end{cmdtabx}
+
+\section{Font}
+    \subsection{Family and style}
+    
+        \begin{cmdtab}
+            \bs rmfamily, \bs tesubsubsectionxtrm\{ \} & \textrm{roman} \\
+            \bs sffamily, \bs textsf\{ \} & \textsf{sans-serif} \\
+            \bs ttfamily, \bs texttt\{ \} & \texttt{typewriter} \\
+            \bs scshape, \bs textsc\{ \} & \textsc{small-caps} \\
+            \bs itshape, \bs textit\{ \} & \textit{italic} \\
+            \bs bfseries, \bs textbf\{ \} & \textbf{bold} \\
+            \bs fontfamily\{family\}\bs selectfont & specifies font family of following text
+        \end{cmdtab}
+        
+        \subsubsection{Overriding defaults}
+            \begin{cmdtabxx}{Variable}{Default}{Activated by}
+                \bs familydefault & \bs rmdefault & \bs normalfont, \bs textnormal\{ \} \\
+                \bs rmdefault & cmr & \bs rmfamily, \bs textrm\{ \} \\
+                \bs ttdefault & cmtt & \bs ttfamily, \bs texttt\{ \} \\
+                \bs scdefault & cmss & \bs sffamily, \bs textsf\{ \} \\
+                \bs seriesdefault & m & \bs normalfont, \bs textnormal\{ \} \\
+                \bs mddefault & m & \bs mdseries, \bs textmd\{ \} \\
+                \bs bfdefault & bx & \bs bfseries, \bs textbf\{ \}
+            \end{cmdtabxx}
+            
+            The listed variables might be overriden with \texttt{\bs renewcommand\{\bs variable\}\{\bs newvalue\}}, eg.:
+            
+            \begin{cmdtab}
+                \bs renewcommand\{\bs rmdefault\}\{\bs pbk\} & sets the default roman font to \textit{Bookman} (pbk) \\
+                \bs renewcommand\{\bs familydefault\}\{\bs sfdefault\} & sets the general default font to the default sans-serif font
+            \end{cmdtab}
+            
+        \subsubsection{Setting fonts with packages}
+
+            \begin{cmdtabxxxxx}{Package}{Text font}{Sans}{Typewriter}{Math}
+                \textit{none} & CM Roman & CM SansSerif & CM Typewriter & CM Roman \\
+                mathpazo & Palatino & & & $\approx$Palatino \\
+                mathptmx & Times & & & $\approx$Times \\
+                helvet & & Helvetica & & \\
+                avant & & Avant Garde & & \\
+                courier & &  & Courier & \\
+                chancery & Zapf Chancery & & & \\
+                bookman & Bookman & Avant Garde & Courier & \\
+                newcent & New Century Schoolbook & Avant Garde & Courier & \\
+                charter & Charter &  & &
+            \end{cmdtabxxxxx}
+        
+        \subsubsection{Common font family names}
+            \begin{cmdtabx}{Abbreviation}{Font name}
+                cmr & CM Roman \\
+                ppl & Palatino \\
+                ptm & Times Roman \\
+                pzc & Zapf Chancery \\
+                pbk & Bookman \\
+                phv & Helvetica
+            \end{cmdtabx}
+
+    \subsection{Size}
+        \begin{cmdtab}
+            \bs tiny & \tiny tiny font (5 pt) \\
+            \bs scriptsize\ & \scriptsize very small font (7 pt) \\
+            \bs footnotesize & \footnotesize quite small font (8 pt) \\
+            \bs small & \small small font (9 pt) \\
+            \bs normalsize & \normalsize normal font (10 pt) \\
+            \bs large & large font (12 pt) \\
+            \bs Large & larger font (14.4 pt) \\
+            \bs LARGE & very large font (17.28 pt) \\
+            \bs huge & huge font (20.74 pt) \\
+            \bs Huge & largest font (24.88 pt) \\
+        \end{cmdtab}
+    
+    \subsection{Color}
+    
+        \begin{cmdtab}
+            \bs color\{color\} & sets the color \\
+            \bs normalcolor & resets the color \\
+            \bs textcolor\{color\}\{text\} & sets the color of the specified text \\
+            \bs pagecolor\{color\} & sets the page background color \\
+        \end{cmdtab}
+        
+    \subsection{Sections, paragraphs, \dots}
+        These commands require the \texttt{sectsty} package.
+
+        \begin{cmdtab}
+            \bs allsectionsfont\{any\_latex\_cmd\} & allows to set font family/style for all sections \\
+            \minibox{\bs subsectionfont\{any\_latex\_cmd\}, \\ \bs paragraphfont\{any\_latex\_cmd\}, \dots} & allows to set font family/style for subsections, paragraphs, \dots \\
+        \end{cmdtab}
+
+    \subsection{Special characters}
+        \label{subsec:special_characters}
+
+        \subsubsection{Quotation marks}
+            \begin{cmdtab}
+                
+            \end{cmdtab}
+        
+        \subsubsection{Miscellaneous}
+            \begin{itemize}
+                \item with \texttt{textcomp} package: \texttt{\bs textcopyright} \textcopyright, \texttt{\bs texttrademark} \texttrademark, \texttt{\bs textcelsius} \textcelsius, \texttt{\bs texteuro}, \dots
+                \item official {\euro}-symbol with \texttt{\bs usepackage[official,right]\}\{eurosym\}}: \texttt{\bs euro}, \texttt{\bs EUR\{123,45\}}
+                \item with \texttt{pifont} package: \texttt{\bs ding\{sym\_num\}}, \texttt{\bs Pisymbol\{sym\_font\}\{sym\_num\}}
+                \item using inline math environment: \texttt{\$ \bs rightarrow \bs leftrightarrow \$} $ \rightarrow \leftrightarrow $, see also section \ref{subsec:math_symbols}
+                \item see also \fullref{section:escaping}
+            \end{itemize}
+
+\section{Enumerations}
+    \label{section:enumerations}
+    
+    \begin{cmdtab}
+        \bs begin\{itemize\} \dots \bs end\{itemize\} & defines enumeration block \textit{without} numbering \\
+        \bs begin\{enumerations\} \dots \bs end\{enumerations\} & defines enumeration block \textit{with} numbering (use of \texttt{\bs label} is possible) \\
+        \bs setlength\bs itemsep\{spacing\} & controls spacing between items \\
+        \bs item[icon] & starts an item
+    \end{cmdtab}
+
+\section{Boxes}
+
+    \begin{cmdtab}
+        \bs fbox\{text\} & \fbox{\footnotesize simple framed box} \\
+        \bs mbox\{text\} & \mbox{\footnotesize simple unframed box} \\
+        \bs framebox[width][alignment]\{text\} & \framebox[1.5\width][c]{\minibox{\footnotesize framed box with alignment \\ \footnotesize and width (here "\texttt{1.5\bs width}")}}  \\
+        \bs makebox[width][alignment]\{text\} & \makebox[1.5\width][c]{\minibox{\footnotesize unframed box with alignment \\ \footnotesize and width (here "\texttt{1.5\bs width}")}} \\
+        \bs colorbox\{bg\_color\}\{text\} & \colorbox{yellow}{\footnotesize unframed box with background color} \\
+        \bs colorbox\{frame\_color\}\{bg\_color\}\{text\} & \fcolorbox{blue}{white!50!green!50}{\footnotesize framed box with colored background and frame} \\
+        \bs minibox\{text\} & unframed box which allows manual line breaks (requires \texttt{minibox} package) \\
+        \bs rule[vertical\_offset]\{width\}\{height\} & \rule{2.5cm}{0.25cm} (invisible) padding (when either \texttt{width} or \texttt{height} is zero)  \\
+    \end{cmdtab}
+    
+    \subsection{fancybox}
+        These commands require the \texttt{fancybox} package.
+
+        \begin{cmdtab}
+            \bs ovalbox\{text\} & \ovalbox{\footnotesize oval box} \\
+            \bs Ovalbox\{text\} & \Ovalbox{\footnotesize oval box (thick border)} \\
+            \bs shadowbox\{text\} & \shadowbox{\footnotesize shadowed box} \\
+            \bs doublebox\{text\} & \doublebox{\footnotesize box with double border} \\
+            \bs cornersize\{corner\_size\} & manipulates the corner size \\
+            \bs raisebox\{raise\}\{text\} & allows to \raisebox{0.5ex}{raise} and to \raisebox{-0.5ex}{lower} (negative raise) \\
+            \bs underline\{text\} & \underline{underline} \\
+            \bs underbar\{text\} & \underbar{underbar} \underline{\underbar{underline and underbar}} \\
+        \end{cmdtab}
+    
+    \subsection{Minipages}
+        Allow side by side positioning; can be used withing \texttt{float} environment; require the \texttt{minipage} package.
+        
+        \begin{cmdtab}
+            \bs begin\{minipage\}[vert\_align]\{width\} \dots \bs end\{minipage\} & defines minipage \\
+        \end{cmdtab}
+
+        \paragraph{Vertical alignment}{
+            either t, c or b for top, center or bottom
+        }
+        subsubsection
+        \paragraph{Width}{
+            use eg. \texttt{0.5 \bs textwidth} for 50 \% of the available with
+        }
+
+\section{Graphics}
+    \label{section:graphics}
+    *.pdf, *.jpg, *.png files can be included with \texttt{\bs includegraphics[options]\{image\}}.
+
+    \begin{cmdtabx}{Option}{Note}
+        viewport=x1 y2 x2 y2, clip & cropping (in $ \frac{1}{72} $ inch, relative to bottom left corner) \\
+    \end{cmdtabx}
+    
+    \subsection{Annotations}
+        Graphics can be annotated using the \texttt{overpic} environment of the \texttt{overpic} package.
+        
+        \begin{lstlisting}[
+            caption={Annotation example},
+            language={[LaTeX]tex},
+            basicstyle={\ttfamily\footnotesize},
+            keywordstyle={\color{blue}},
+            backgroundcolor={\color{codebox_bg}},
+            numbers={left}
+            ]
+\begin{overpic}[tics=10,height=7cm]{robot}
+    \put(80 ,32){detector}
+    \put(87 ,36){\vector(-1,4){1.5}}
+    \put(50 ,18){source}
+    \put(77 ,19){\vector(1,0){7}}
+    \put(15 ,50){valve}
+    \put(30 ,50){\vector(1,-1){5}}
+    \put(19 ,13){{\small A1}}
+\end{overpic}
+        \end{lstlisting}
+
+\section{Tables}
+    For basic tables no packages need to be included. However the packages \texttt{tabularx}, \texttt{array} and \texttt{longtable} provide extended features.
+
+    \begin{cmdtab}
+        \minibox{ \bs begin\{tabular\}[position]\{column\_declarations\} \\ \dots \bs end\{tabular\} } & defines a table \\
+        \minibox{ \bs begin\{tabular*\}\{width\}[position]\{column\_declarations\} \\ \dots \bs end\{tabular*\} } & defines a table with the specified with \\
+        \minibox{ \bs begin\{array\}[position]\{column\_declarations\} \\ \dots \bs end\{array*\} } & defines a table (for formulas) \\
+        \minibox{ \bs begin\{tabbing\} \\ \dots \bs end\{tabbing\} } & defines a tabulator-based table \\
+        \minibox{ \bs begin\{longtable\}[position]\{column\_declarations\} \\ \dots \bs end\{longtable\} } & defines a table which is able to expand multiple pages (can not be used in a floating environment) \\
+        \bs listoftables & prints the list of tables
+    \end{cmdtab}
+    
+    \subsection{Column definitions}
+        \begin{cmdtabx}{Syntax}{Description}
+            l, r, c & specifies the alignment \\
+            p\{with\} & specifies with \\
+            | & defines vertical line between columns \\
+            @\{col\_spacing\} & sets the column spacing \\
+            *\{count\}\{definition\} & inserts \texttt{definition} \texttt{count} times
+        \end{cmdtabx}
+    
+    \begin{lstlisting}[
+            caption={Example table},
+            language={[LaTeX]tex},
+            basicstyle={\ttfamily\footnotesize},
+            keywordstyle={\color{blue}},
+            backgroundcolor={\color{codebox_bg}},
+            numbers={left},
+            float=h
+        ]
+\begin{tabular}{|lcr|}
+    \hline
+    Color & Shape & Number \\
+    red & rect & 100 \\
+    blue & circle & 99 \\
+    \hline
+\end{tabular}
+    \end{lstlisting}
+
+    \begin{lstlisting}[
+            caption={Example tabulator-based table},
+            language={[LaTeX]tex},
+            basicstyle={\ttfamily\footnotesize},
+            keywordstyle={\color{blue}},
+            backgroundcolor={\color{codebox_bg}},
+            numbers={left},
+            float=h
+        ]
+\begin{tabbing}
+    Distributions: \ \= Column 1 \= Column 2 XX\kill \\
+    Distributions:   \> Name \= Packaging system \\
+                     \> Arch Linux \= pacman \\
+                     \> Debian \= APT
+\end{tabbing}
+    \end{lstlisting}
+    
+    \subsection{Floating tables}
+        \label{subsec:floating_tables}
+        \begin{cmdtab}
+            \minibox{ \bs begin\{table\} \dots \bs end\{table\} } & defines a floating environment for embedding the actual table \\
+            \bs centering & sets alignment of the \texttt{table} environment to center \\
+            \bs caption & specifies the caption of the floating table \\
+            \bs label & defines an anchor referring to the floating table
+        \end{cmdtab}
+        
+        \paragraph{Remarks}{
+            The \texttt{table} environment defines only the floating element. The actual table is still defined using the \texttt{tabular} environment.
+        }
+
+\section{Including source code}
+    \label{section:including_source_code}
+    The \texttt{lstlisting} environment and assoiciated commands require the \texttt{listing\textbf{s}} package.
+
+    \begin{cmdtab}
+        \bs begin\{verbatim\} \dots \bs end\{verbatim\} & ignores \LaTeX{} syntax, sets typewriter font \\
+        \bs begin\{lstlisting\}[options] \dots \bs end\{lstlisting\} & advanced version of verbatim, see \fullref{subsec:listing_options} \\
+        \bs lstinputlisting[options]\{file\} & same as \texttt{lstlisting} environment, but allows including an external file
+    \end{cmdtab}
+    
+    \subsection{lstlisting options}
+        \label{subsec:listing_options}
+        \begin{cmdtabxy}{Option}{Example/values}{Description}
+            caption= & \{Some C++ code\} & caption (with number) \\
+            label= & \{anchor\_name\} & defines an anchor, see \fullref{subsec:labels} \\
+            title= & \{More C++ code\} & caption (without number) \\
+            language= & \{[Visual]C++\}/\{[LaTeX]tex\} & programming language \\
+            breaklines= & true/false & enables/disables line breaks \\
+            basicstyle= & \{\bs ttfamily\bs footnotesize\} & defines the basic style \\
+            keywordstyle= & \{\bs color\{blue\}\} & sets the style of keywords \\
+            commentstyle= & \{\bs color\{green\}\} & sets the style of comments \\
+            stringstyle= & \{\bs color\{brown\}\} & sets the style of string literal \\
+            backgroundcolor= & \{\bs color\{yellow\}\} & sets the background color \\
+            frame= & \minibox{ none/leftline/topline/ \\ bottomline/lines/shadowbox } & specifies the appearance of the frame \\
+            numbers= & left/right & enables line numbers \\
+            inputencoding= & latin1 & specifies the input encoding \\
+            float= & \textnormal{see \fullref{subsec:floating_position}} & enables floating
+        \end{cmdtabxy}
+
+\section{Biblography}
+    \subsection{Manual bibliography}
+    
+        \begin{cmdtab}
+            \minibox{\bs begin\{thebibiliography\}\{abbr\_length\} \\ \dots \bs end\{thebibiliography\}} & defines a manual bibliography \\
+            \bs bibitem\{key\} title of book, author \dots & starts an item
+        \end{cmdtab}
+
+    \subsection{Automatically generated bibliography}
+    
+        \begin{cmdtab}
+            \bs biblographystyle\{style\_file\} & sets the bibliography layout (see \fullref{subsec:bibtex_styles}) \\
+            \bs bibliography\{bib\_file1, bib\_file2, \dots\} & makes the bibliography \\
+            \bs cite[text]\{key\} & reference to biblography entry with \textit{text} \\
+            \bs nocite\{key1, key2\} & ensures the specified entries occur in the biblography without producing a reference \\
+            \bs nocite\{*\} & ensures all entries occur in the biblography without producing any references
+        \end{cmdtab}
+
+        \subsubsection{Styles}
+            \label{subsec:bibtex_styles}
+        
+            \begin{cmdtabx}{Name}{Note}
+                plain & alphabetical order, numeric marks \\
+                unsrt & sorted by the occurrence of references, numeric marks \\
+                alpha & alphabetical order, marks with author and year  \\
+                natdin & alphabetical order, marks with full author name and year according DIN 1505 part 2 (required \texttt{natbib} package)
+            \end{cmdtabx}    
+
+        \subsubsection{*.bib-File example}
+            \begin{minipage}{0.5\textwidth}
+                \codebox{
+                    @book\{ entry\_id, \\
+                        \phantom{  } author = \{Goossens, Michel and Mittelbach, Frank\}, \\
+                        \phantom{  } title = \{Der LaTeX-Begleiter\}, \\
+                        \phantom{  } publisher = \{Pearson Studium\}, \\
+                        \phantom{  } address = \{M\{\bs "\{u\}\}nchen\}, \\
+                        \phantom{  } year = \{2005\}, \\
+                        \phantom{  } \\
+                        \phantom{  } \dots \\
+                    \}
+                }
+            \end{minipage}%
+            \begin{minipage}{0.5\textwidth}
+                \codebox{
+                    @article\{ entry\_id, \\
+                        \phantom{  } author = \{Neubauer, Marion\}, \\
+                        \phantom{  } title = \{Mikrotypographie-\{R\}egeln, \{T\}eil 1\}, \\
+                        \phantom{  } journal = \{Die \{T\}eXnische \{K\}om\{\bs "\{o\}\}die\}, \\
+                        \phantom{  } number = \{4\}, \\
+                        \phantom{  } pages = \{23--40\}, \\
+                        \phantom{  } year = \{1996\}, \\
+                        \phantom{  } \dots \\
+                    \}
+                }
+            \end{minipage}
+            
+            \paragraph{Other entry classes}{
+                \texttt{@booklet}, \texttt{@conference}, \texttt{@manual}, \texttt{@masterthesis}, \texttt{@misc}, \\
+                \texttt{@string\{abbreviation\_id = "Text"\}}, ~\dots
+            }
+    
+        \subsubsection{Compilation steps}
+            \begin{enumerate}
+                %\setlength\itemsep{-1em}
+                \item \texttt{pdflatex}: generates *.aux-file (for \texttt{\bs cite}-commands)
+                \item \texttt{bibtex}: generates *.bbl-file (from *.aux- and *.bib-file)
+                \item \texttt{pdflatex}: can now generate bibliography (from *.bbl-file)
+                \item \texttt{pdflatex}: can now generate references to bibliography
+            \end{enumerate}
+
+\section{Index}
+    These commands require the \texttt{makeidx} package and \texttt{\bs makeindex} in the header.
+
+    \begin{cmdtab}
+        \bs printindex & prints the index \\
+        \bs index\{index\_entry\} & defines an index entry, see \fullref{subsec:index_syntax} \\
+    \end{cmdtab}
+    
+    \subsection{Syntax}
+        \label{subsec:index_syntax}
+        
+        \begin{cmdtabx}{Symbol}{Effect}
+            @ & divides \textit{key} and \textit{entry}, eg. \texttt{\bs index\{key@entry\}} (\textit{entry} is sorted by \textit{key}) \\
+            ! & divides main entry and secondary entry, eg. \texttt{\bs index\{main\_entry!sec\_entry\}} \\
+            | & starts command which is applied to page number, eg. \texttt{\bs index\{important|textbf\}} \\
+            |(\dots|) & starts/ends page range, eg. \texttt{\bs index\{entry|(\}}\dots\texttt{\bs index\{entry|)\}} $\rightarrow$ key, 7-9 \\
+            " & escape character, eg. \texttt{\bs index\{"@\}} $\rightarrow$ @, 5
+        \end{cmdtabx}
+    
+    \subsection{Compilation steps}
+        \begin{enumerate}
+            %\setlength\itemsep{-1em}
+            \item \texttt{pdflatex}: generates *.idx-file (for \texttt{\bs index}-commands)
+            \item \texttt{makeindex}: generates *.ind-file (from *.idx- and *.ist-file)
+            \item \texttt{pdflatex}: can now generate index
+        \end{enumerate}
+
+\section{Nomenclature/symbol table}
+    These commands require the \texttt{nomencl} package and \texttt{\bs makenomenclature} in the header.
+    
+    \begin{cmdtab}
+        \bs printnomenclature & prints the nomenclature \\
+        \bs nomenclature\{symbol\}\{description\} & defines a symbol \\
+    \end{cmdtab}
+    
+    \subsection{Compilation steps}
+        \begin{enumerate}
+            %\setlength\itemsep{-1em}
+            \item \texttt{pdflatex}: reads \texttt{\bs nomenclature}-commands
+            \item \texttt{nomencl}: generates *.nls and *.ilg files
+            \item \texttt{pdflatex}: can print nomenclature
+        \end{enumerate}
+
+\section{Customization}
+    \subsection{Commands}
+        \begin{cmdtab}
+            \bs newcommand\{\bs cmd\_name\}[arg\_count]\{cmd\_content\} & defines a new command \\
+            \bs renewcommand\{\bs cmd\_name\}[arg\_count]\{cmd\_content\} & redefines an existing command \\
+        \end{cmdtab}
+    
+    \subsection{Environments}
+        \begin{cmdtab}
+            \bs newenvironment\{\bs env\_name\}\{begin\_env\_code\}\{end\_env\_code\} & defines a new environment \\
+        \end{cmdtab}
+    
+    \subsection{Counter}
+        \begin{cmdtab}
+            \bs newcounter\{counter\_name\} & defines a new counter which is initialized with 0 \\
+            \bs arabic\{counter\_name\} & prints the counter value with Arabic digits \\
+            \bs roman\{counter\_name\} & prints the counter value with Roman digits \\
+            \bs value\{counter\_name\} & returns the counter value \\
+            \bs setcounter\{counter\_name,value\} & assigns the counter to the specified value \\
+            \bs addtocounter\{counter\_name,value\} & increments the counter by the specified value \\
+            \bs stepcounter\{counter\_name\} & increments the counter by one \\
+        \end{cmdtab}
+    
+    \subsection{Lengths}
+        \begin{cmdtab}
+            \bs setlength\{\bs length\_name\}\{length\} & defines a new length \\
+            \bs addtolength\{\bs length\_name\}\{length\_increment\} & adds \\
+            \bs settowidth\{\bs length\_name\}\{some\_text\} & defines a new length with the length of the specified text \\
+        \end{cmdtab}    
+    
+    \subsection{Comparsion operations}
+        Requires the \texttt{ifthen} package.
+
+        \paragraph{Usage}{
+            \texttt{\bs ifthenelse\{condition\}\{"true" branch\}\{"false" branch\}}, \\
+            eg. \texttt{\bs ifthenelse\{\bs value\{c1\} > \bs value\{c2\}\}\{\$c1 > c2\$\}\{\$c1 \bs le c2\$\}}
+        }
+            
+        \paragraph{Loops}{
+            \texttt{\bs whiledo\{condition\}\{code\}}
+        }
+    
+    \subsection{Document classes}
+        Create *.cls file, eg. \\
+        \codebox{
+            \bs ProvidesClass\{myclass\}[desc] \\
+            \bs LoadClassWithOptions[a4paper,ngerman,twoside]\{article\} \\
+            \bs RequiredPackage[ansinew]\{inputenc\} \\
+            \bs RequiredPackage[T1]\{fontenc\} \\
+            \bs RequiredPackage[ngerman]\{babel\} \\
+            \bs RequiredPackage\{xcolor,graphics\} \\
+        }
+    
+    \subsection{Packages}
+        Create *.sty file, eg. \\
+        \codebox{
+            \bs ProvidesPackage\{mypackage\}[desc] \\
+            \bs newenvironment\{\dots\}\{\dots\}\{\dots\} \\
+            \bs newcommand\{\dots\}[\dots]\{\dots\} \\
+            \dots
+        }
+
+\section{Koma-Script}
+    Bundles misc classes and packages for European layout.
+    
+    \subsection{Classes}
+        \begin{cmdtabxxxx}{Default class}{Koma-Script class}
+            article & scrartcl \\
+            report & scrreprt \\
+            book & scrbook \\
+            letter & scrlettr
+        \end{cmdtabxxxx}
+
+\section{PDF tweaks}
+    \label{section:pdf_tweaks}
+
+    The following commands are PDF specific required the \texttt{hyperref} package
+    which should be loaded at last package.
+
+    \subsection{PDF specific configuration (example)}
+
+        \begin{lstlisting}[
+            language={[LaTeX]tex},
+            basicstyle={\ttfamily\footnotesize},
+            keywordstyle={\color{blue}},
+            backgroundcolor={\color{codebox_bg}},
+            numbers={left}
+            ]
+\hypersetup{%
+    pdfauthor={The author},
+    pdftitle={The title},
+    pdfsubject={The subject},
+    pdfkeywords={keyword1, keyword2, ...},
+    pdfstartview={FitV},
+    pdfview={FitH},
+    pdfpagemode={FullScreen},
+    colorlinks={true/false},
+    urlcolor={some\_color},
+    backref={true/false}
+}
+        \end{lstlisting}
+
+    \subsection{Links and bookmarks}
+        \begin{cmdtab}
+            \bs href\{url\}\{text\} & makes a \href{https://github.com/Martchus}{link} with the specified text and url \\
+            \bs url\{url\} & make a link with the specified url which is also used as link text \\
+            \bs pdfbookmark[level]\{text\}\{anchor\_id\} & inserts a PDF bookmark
+        \end{cmdtab}
+        
+        \paragraph{Note}{
+            \nameref{section:escaping} of \# and \textasciitilde{} is not necessary.
+        }
+    
+    \subsection{PDF inclusion}
+        Can be done with the \texttt{\bs includepdf[options]\{document\_name\}} command which requires the \texttt{pdfpages} package.
+        
+        \begin{cmdtabx}{Option}{Specifies}
+            pages & the pages to be included, eg. \texttt{pages=\{2-4; 10\}} \\
+            nup & the number of (included) pages on one page, eg. \texttt{nup=\textit{x}{}x{}\textit{y}} \\
+            landscape & whether landscape layout is used (\texttt{true} or \texttt{false})
+        \end{cmdtabx}
+
+\section{Presentations}
+    \begin{itemize}
+        \item document class: \texttt{beamer}
+        \item each page is embedded in \texttt{\bs frame\{content\}} or \texttt{frame} environment
+        \item presentation structure is defined using \texttt{\bs section[long\_heading]\{TOC\_heading\}, \bs subsection[]\{\}}\dots
+    \end{itemize}
+    
+    \begin{cmdtab}
+        \bs frame & wraps a page \\
+        \bs frametitle\{title\} & sets the frame title \\
+        \bs titlepage & makes the title page
+    \end{cmdtab}
+
+\section{Further information}
+    Full \LaTeX{} documentation is available at the \href{https://www.ctan.org}{CTAN (Comprehensive TeX Archive Network) website}.
+
+\end{document}
