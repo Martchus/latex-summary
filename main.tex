@@ -69,7 +69,8 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             \item Defining shortcuts might be useful, eg.: \texttt{\bs newcommand\{\bs bs\}\{\bs textbackslash\}}
             \item For including source code, see section \ref{section:including_source_code}. For special characters, see section \ref{subsec:special_characters}.
             \item The following characters mustn't be escaped: \framebox[1.1\width][c]{[ ] ( ) / ! ? * :}
-            \item The following special characters can be used as label/color IDs (\textit{without} escaping): \framebox[1.3\width][c]{\_ :}
+            \item The following special characters can be used as label/color IDs (\textit{without} escaping): \framebox[1.4\width][c]{\_ :}
+            \item The character sequences ~\framebox[1.3\width][c]{"{}' ~ "{}` ~ `{}` ~ '{}'}~ are special \nameref{section:quotation_marks} and must be escaped using eg. ~\framebox[1.3\width][c]{\texttt{"\{\}'}}.
         \end{itemize}
     }
 
@@ -371,22 +372,34 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             \bs textcolor\{color\}\{text\} & sets the color of the specified text \\
             \bs pagecolor\{color\} & sets the page background color \\
         \end{cmdtab}
-        
-    \subsection{Sections, paragraphs, \dots}
-        These commands require the \texttt{sectsty} package.
-
-        \begin{cmdtab}
-            \bs allsectionsfont\{any\_latex\_cmd\} & allows to set font family/style for all sections \\
-            \minibox{\bs subsectionfont\{any\_latex\_cmd\}, \\ \bs paragraphfont\{any\_latex\_cmd\}, \dots} & allows to set font family/style for subsections, paragraphs, \dots \\
-        \end{cmdtab}
 
     \subsection{Special characters}
         \label{subsec:special_characters}
 
         \subsubsection{Quotation marks}
-            \begin{cmdtab}
-                
-            \end{cmdtab}
+            \label{section:quotation_marks}
+
+            \begin{cmdtabxyy}{Notation/command}{Description}{}
+                \bs glqq & German left quote (double) & \glqq \\
+                \bs grqq & German right quote (double) & \grqq \\
+                \bs glq & German left quote (single) & \glq \\
+                \bs grq & German right quote (single) & \grq \\
+                \bs frqq & French left quote (double) & \frqq \\
+                \bs flqq & German right quote (double) & \flqq \\
+                \bs frq & French left quote (single) & \frq \\
+                \bs flq & German right quote (single) & \flq \\
+                `{}` & English left quotes (double) & `` \\
+                '{}' & English right quotes (double) & '' \\
+                "{}` & German left quote (double) & \glqq{} \\
+                "{}' & German right quote (double) & \grqq{}
+            \end{cmdtabxyy}
+            
+            \paragraph{Notes}{
+                \begin{itemize}
+                    \item Short notations for German quotes require German language via \texttt{babel} package.
+                    \item For escaping quotation marks see \fullref{section:escaping}.
+                \end{itemize}
+            }
         
         \subsubsection{Miscellaneous}
             \begin{itemize}
@@ -396,6 +409,14 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
                 \item using inline math environment: \texttt{\$ \bs rightarrow \bs leftrightarrow \$} $ \rightarrow \leftrightarrow $, see also section \ref{subsec:math_symbols}
                 \item see also \fullref{section:escaping}
             \end{itemize}
+
+        \subsection{Sections, paragraphs, \dots}
+        These commands require the \texttt{sectsty} package.
+
+        \begin{cmdtab}
+            \bs allsectionsfont\{any\_latex\_cmd\} & allows to set font family/style for all sections \\
+            \minibox{\bs subsectionfont\{any\_latex\_cmd\}, \\ \bs paragraphfont\{any\_latex\_cmd\}, \dots} & allows to set font family/style for subsections, paragraphs, \dots \\
+        \end{cmdtab}
 
 \section{Enumerations}
     \label{section:enumerations}

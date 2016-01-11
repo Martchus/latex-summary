@@ -130,6 +130,14 @@
     \endtabularx
 }
 
+\newenvironment{cmdtabxyy}[3]
+{
+    \tabularx{\textwidth}{$r ^l ^l}
+        \rowstyle{\normalfont\bfseries} #1 & \rowstyle{\normalfont\bfseries} #2 & \rowstyle{\normalfont\bfseries} #3 \\
+}{
+    \endtabularx
+}
+
 \newenvironment{cmdtabxy}[3]
 {
     \tabularx{\textwidth}{$l $l ^X}
