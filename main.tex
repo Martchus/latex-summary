@@ -22,11 +22,11 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
 
 \section{Document-wide commands}    
     \begin{cmdtab}
-        \bs documentclass[options]\{class\} & sets document class (article/report/book/letter/scrartcl\dots) and related options (10pt\dots{}12pt, fleqn/leqno, titlepage/notitlepage, twocolumn/twoside, a4paper/a5paper, draft, landscape) \\
+        \bs documentclass[options]\{class\} & sets document class (\texttt{article}/\texttt{report}/\texttt{book}/\texttt{letter/}\texttt{scrartcl}\dots) and related options (\texttt{10pt}\dots{}\texttt{12pt}, \texttt{fleqn}/\texttt{leqno}, \texttt{titlepage}/\texttt{notitlepage}, \texttt{twocolumn}/\texttt{twoside}, \texttt{a4paper}/\texttt{a5paper}, \texttt{draft}, \texttt{landscape}) \\
         \bs usepackage[options]\{pkgname\} & imports commands from the specified package \\
         \bs input\{file\} & includes the specified file \\
         \bs include\{file\} & includes the specified file (new page) \\
-        \bs author\{val\}, \bs title\{val\}, \bs date\{val\} & sets metadata (used by \bs maketitle) \\
+        \bs author\{val\}, \bs title\{val\}, \bs date\{val\} & sets metadata (used by \texttt{\bs maketitle}) \\
         \bs begin\{document\}, \bs end\{document\} & defines boundries of the actual text
     \end{cmdtab}
     
@@ -38,9 +38,9 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             \bs usepackage\{nameref\} & provides named references via \texttt{\bs nameref\{\}}, see \fullref{subsec:labels} \\
             \bs usepackage\{amsmath\} & provides \fullref{section:math} \\
             \bs usepackage\{caption\} & provides \texttt{\bs captionof\{ \}}, see \fullref{section:floating_environments} \\
-            \bs usepackage\{xcolor\} & provides colors (see \fullref{subsec:notations_colors}) \\
+            \bs usepackage\{xcolor\} & provides colors, see \fullref{subsec:notations_colors} \\
             \bs usepackage\{hyperref\} & provides bookmarks, hyperlinks and PDF specific settings, see also \fullref{section:pdf_tweaks}. \\
-            \bs usepackage\{geometry\} & allows to set page geometry (see \fullref{subsec:geometry}) \\
+            \bs usepackage\{geometry\} & allows to set page geometry, see \fullref{subsec:geometry} \\
             \bs usepackage\{microtype\} & tunes line breaks
         \end{cmdtab}
     
@@ -51,7 +51,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         \begin{cmdtabx}{Option}{Effect}
             left, right, bottom, top & specify borders \\
             bindingoffset & specifies the binding offset \\
-            includehead, includefoot & whether head and foot nodes include borders \\
+            includehead, includefoot & whether head and foot notes include borders \\
         \end{cmdtabx}
 
 \section{Escaping}
@@ -69,8 +69,8 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             \item Defining shortcuts might be useful, eg.: \texttt{\bs newcommand\{\bs bs\}\{\bs textbackslash\}}
             \item For including source code, see section \ref{section:including_source_code}. For special characters, see section \ref{subsec:special_characters}.
             \item The following characters mustn't be escaped: \framebox[1.1\width][c]{[ ] ( ) / ! ? * :}
-            \item The following special characters can be used as label/color IDs (\textit{without} escaping): \framebox[1.4\width][c]{\_ :}
-            \item The character sequences ~\framebox[1.3\width][c]{"{}' ~ "{}` ~ `{}` ~ '{}'}~ are special \nameref{section:quotation_marks} and must be escaped using eg. ~\framebox[1.3\width][c]{\texttt{"\{\}'}}.
+            \item The following special characters can be used in label/color IDs (\textit{without} escaping): \framebox[1.4\width][c]{\_ :}
+            \item The character \textit{sequences} ~\framebox[1.3\width][c]{"{}' ~ "{}` ~ `{}` ~ '{}'}~ are special \nameref{section:quotation_marks} and must be escaped using eg. ~\framebox[1.3\width][c]{\texttt{"\{\}'}}.
         \end{itemize}
     }
 
@@ -104,7 +104,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         \label{subsec:man_toc}
         \begin{cmdtab}
             \bs section[toc\_title]\{title\} & sets a toc-specific title \\
-            \bs section*\{title\} & disable index and appearance in toc \\
+            \bs section*\{title\} & disables index and appearance in toc \\
             \bs addcontentsline\{toc\}\{section\_level\}\{text\_entry\} & adds an additional entry
         \end{cmdtab}
 
@@ -173,7 +173,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
     \label{section:floating_environments}
     
     \begin{cmdtabx}{Environment}{Use}
-        table & to include, see \fullref{subsec:floating_tables} \\
+        table & to include tables (\texttt{tabular}), see \fullref{subsec:floating_tables} \\
         figure & to include graphics with \texttt{\bs includegraphics}, see \fullref{section:graphics} \\
         lstlisting & to include source code, see \fullref{section:including_source_code}
     \end{cmdtabx}
@@ -202,10 +202,10 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         \begin{cmdtabx}{Command}{Meaning}
             \bs topfraction & fraction for floats at the beginning of a page \\
             \bs bottomfraction & fraction for floats at the end of a page \\
-            \bs textfraction & minimum fraction for text on a a page
+            \bs textfraction & minimum fraction for text on a page
         \end{cmdtabx}
 
-        Parameter can be changed using eg. \texttt{\bs renewcommand\{\bs topfraction\}\{0.6\}}.
+        Parameters can be changed using eg. \texttt{\bs renewcommand\{\bs topfraction\}\{0.6\}}.
 
 \section{Notations}
 
@@ -231,8 +231,8 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
                     %\setlength\itemsep{-1em}
                     \item schemes: \texttt{rgb cmyk HTML} \dots
                     \definecolor{red1}{HTML}{AA0000} \definecolor{blue1}{rgb}{0.1,0.1,1.0}
-                    \item examples: \texttt{ \textcolor{red1}{\bs definecolor\{red1\}\{HTML\}\{AA0000\}} \\
-                        \phantom{examples: } \textcolor{blue1}{\bs definecolor\{blue1\}\{rgb\}\{0.1,0.1,1.0\}} }
+                    \item examples: \texttt{ \textcolor{red1}{\bs definecolor\{red1\}\{HTML\}\{AA0000\}}
+                        \textcolor{blue1}{\bs definecolor\{blue1\}\{rgb\}\{0.1,0.1,1.0\}} }
                 \end{itemize}
             \item mixing colors: \texttt{ \textcolor{red!50}{red!50} \textcolor{blue!70!green!50}{blue!70!green!50} }
         \end{itemize}
@@ -261,24 +261,23 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             \bs iint \dots & integral of integral: $ \iint_{}^{} \dots $ \\
             \bs lim \dots & limes: $ \lim \dots $ \\
             \bs left( \bs right) & scaled brackets (can also be used with \texttt{\{\} [] <>}) \\
-            \bs bs begin\{cases\} \dots{} \bs end\{cases\} & defines cases, eg. $
+            \minibox{\bs bs begin\{cases\} \\ ~~p \& p \bs neq 0 \bs\bs~\bs infty \& p = 0 \\ \bs end\{cases\}} & cases: $
                 \begin{cases}
                         p & p \neq 0 \\
-                        \infty & p = 0 \\
+                        \infty & p = 0
                 \end{cases} $
         \end{cmdtab}
 
     \subsection{Letters and symbols}
         \label{subsec:math_symbols}
         \begin{cmdtab}
-            \bs alpha \bs beta & greek letters: $ \alpha , \beta $ \\
-            \bs neq \bs leq \bs geq & equation signs: $ \neq \leq \geq $ \\
-            \bs in \bs notin & (not) in set: $ \in \notin $ \\
+            \bs alpha \bs beta & greek letters: $ \alpha~ \beta $ \\
+            \bs neq \bs leq \bs geq & equation signs: $ \neq~ \leq~ \geq~ $ \\
+            \bs in \bs notin & (not) in set: $ \in~ \notin $ \\
             \bs infty & infinity: $ \infty $ \\
             \bs phantom \{ \} & spacing in size of argument \\
             \bs mathrm\{ \} & roman font in forumal \\
-            \minibox{\bs leftarrow \bs rightarrow \\ \bs longleftarrow \bs leftrightarrow} & arrows: $ \leftarrow \rightarrow \longleftarrow \leftrightarrow $ \\
-            \bs overrightarrow\{x\} & $ \overrightarrow{x} $
+            \minibox{\bs leftarrow \bs rightarrow \\ \bs longleftarrow \bs leftrightarrow \\ \bs overrightarrow\{x\}} & arrows: $ \leftarrow~ \rightarrow~ \longleftarrow~ \leftrightarrow~ \overrightarrow{x} $
         \end{cmdtab}
 
     \subsection{Spacing}
@@ -463,7 +462,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         \end{cmdtab}
 
         \paragraph{Vertical alignment}{
-            either t, c or b for top, center or bottom
+            either \texttt{t}, \texttt{c} or \texttt{b} for top, center or bottom
         }
         subsubsection
         \paragraph{Width}{
@@ -505,7 +504,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
 
     \begin{cmdtab}
         \minibox{ \bs begin\{tabular\}[position]\{column\_declarations\} \\ \dots \bs end\{tabular\} } & defines a table \\
-        \minibox{ \bs begin\{tabular*\}\{width\}[position]\{column\_declarations\} \\ \dots \bs end\{tabular*\} } & defines a table with the specified with \\
+        \minibox{ \bs begin\{tabular*\}\{width\}[position]\{column\_declarations\} \\ \dots \bs end\{tabular*\} } & defines a table with the specified width \\
         \minibox{ \bs begin\{array\}[position]\{column\_declarations\} \\ \dots \bs end\{array*\} } & defines a table (for formulas) \\
         \minibox{ \bs begin\{tabbing\} \\ \dots \bs end\{tabbing\} } & defines a tabulator-based table \\
         \minibox{ \bs begin\{longtable\}[position]\{column\_declarations\} \\ \dots \bs end\{longtable\} } & defines a table which is able to expand multiple pages (can not be used in a floating environment) \\
@@ -515,7 +514,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
     \subsection{Column definitions}
         \begin{cmdtabx}{Syntax}{Description}
             l, r, c & specifies the alignment \\
-            p\{with\} & specifies with \\
+            p\{width\} & specifies width \\
             | & defines vertical line between columns \\
             @\{col\_spacing\} & sets the column spacing \\
             *\{count\}\{definition\} & inserts \texttt{definition} \texttt{count} times
@@ -574,8 +573,8 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
     The \texttt{lstlisting} environment and assoiciated commands require the \texttt{listing\textbf{s}} package.
 
     \begin{cmdtab}
-        \bs begin\{verbatim\} \dots \bs end\{verbatim\} & ignores \LaTeX{} syntax, sets typewriter font \\
-        \bs begin\{lstlisting\}[options] \dots \bs end\{lstlisting\} & advanced version of verbatim, see \fullref{subsec:listing_options} \\
+        \bs begin\{verbatim\} \dots{} \bs end\{verbatim\} & ignores \LaTeX{} syntax, sets typewriter font \\
+        \bs begin\{lstlisting\}[options] \dots{} \bs end\{lstlisting\} & advanced version of verbatim, see \fullref{subsec:listing_options} \\
         \bs lstinputlisting[options]\{file\} & same as \texttt{lstlisting} environment, but allows including an external file
     \end{cmdtab}
     
@@ -602,14 +601,14 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
     \subsection{Manual bibliography}
     
         \begin{cmdtab}
-            \minibox{\bs begin\{thebibiliography\}\{abbr\_length\} \\ \dots \bs end\{thebibiliography\}} & defines a manual bibliography \\
+            \minibox{\bs begin\{thebibliography\}\{abbr\_length\} \\ \dots \bs end\{thebibliography\}} & defines a manual bibliography \\
             \bs bibitem\{key\} title of book, author \dots & starts an item
         \end{cmdtab}
 
     \subsection{Automatically generated bibliography}
     
         \begin{cmdtab}
-            \bs biblographystyle\{style\_file\} & sets the bibliography layout (see \fullref{subsec:bibtex_styles}) \\
+            \bs biblographystyle\{style\_file\} & sets the bibliography layout, see \fullref{subsec:bibtex_styles} \\
             \bs bibliography\{bib\_file1, bib\_file2, \dots\} & makes the bibliography \\
             \bs cite[text]\{key\} & reference to biblography entry with \textit{text} \\
             \bs nocite\{key1, key2\} & ensures the specified entries occur in the biblography without producing a reference \\
@@ -623,7 +622,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
                 plain & alphabetical order, numeric marks \\
                 unsrt & sorted by the occurrence of references, numeric marks \\
                 alpha & alphabetical order, marks with author and year  \\
-                natdin & alphabetical order, marks with full author name and year according DIN 1505 part 2 (required \texttt{natbib} package)
+                natdin & alphabetical order, marks with full author name and year according DIN 1505 part 2 (requires \texttt{natbib} package)
             \end{cmdtabx}    
 
         \subsubsection{*.bib-File example}
@@ -737,7 +736,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
     \subsection{Lengths}
         \begin{cmdtab}
             \bs setlength\{\bs length\_name\}\{length\} & defines a new length \\
-            \bs addtolength\{\bs length\_name\}\{length\_increment\} & adds \\
+            \bs addtolength\{\bs length\_name\}\{length\_increment\} & increments the specified length \\
             \bs settowidth\{\bs length\_name\}\{some\_text\} & defines a new length with the length of the specified text \\
         \end{cmdtab}    
     
@@ -774,7 +773,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         }
 
 \section{Koma-Script}
-    Bundles misc classes and packages for European layout.
+    Bundles various classes and packages for European layout.
     
     \subsection{Classes}
         \begin{cmdtabxxxx}{Default class}{Koma-Script class}
