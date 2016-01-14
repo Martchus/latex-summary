@@ -6,10 +6,10 @@
 
 \maketitle
 
-\center
+\begin{center}
 \vspace{2.5cm}
 Source code is available at \href{https://github.com/Martchus/latex-summary}{https://github.com/Martchus/latex-summary}
-\flushleft
+\end{center}
 
 \clearpage
 
@@ -157,7 +157,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         \end{cmdtab}
 
 \section{Alignment}
-    \begin{cmdtabx}{Environment}{Alignment}
+    \begin{cmdtabx}{Command/environment}{Alignment}
         flushleft & left \\
         flushright & right \\
         center & center \\
@@ -175,6 +175,8 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
     \begin{cmdtabx}{Environment}{Use}
         table & to include tables (\texttt{tabular}), see \fullref{subsec:floating_tables} \\
         figure & to include graphics with \texttt{\bs includegraphics}, see \fullref{section:graphics} \\
+        wrapfigure & to include graphics with \texttt{\bs includegraphics}, allows to have text wrapped around the figure, requires the \texttt{wrapfig} package \\
+        subfloat & nested figure, requires the \texttt{subfig} package \\
         lstlisting & to include source code, see \fullref{section:including_source_code}
     \end{cmdtabx}
 
@@ -213,8 +215,9 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         \begin{itemize}
             %\setlength\itemsep{-1em}
             \item \texttt{mm, cm, in} \dots : milimeter, centimeter, inch
-            \item \texttt{pt} : 0.3515 mm
-            \item \texttt{pc} : 12 pt
+            \item \texttt{pt} : Punkt 0.3515 mm
+            \item \texttt{pc} : Pica 12 pt
+            \item \texttt{cc} : Cicero $ \approx $ 4.53 mm
             \item \texttt{ex}, \texttt{em} : height of small \texttt{x}, width of capital \texttt{M}
             \item \texttt{\bs baselineskipt} : height of a line
         \end{itemize}
@@ -245,7 +248,9 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         \begin{cmdtab}
             \$ some formula \$ & defines an inline formula \\
             \bs begin\{equation\} \dots{} \bs end\{equation\} & defines a \textit{single}-line formula block \\
-            \bs begin\{align\} \dots{} \bs end\{align\} & defines a \textit{multi}-line formula block
+            \bs begin\{align\} \dots{} \bs end\{align\} & defines an aligned \textit{multi}-line formula block  (one equation tag for each line) \\
+            \bs begin\{align\} \dots{} \bs end\{align\} & defines a non-aligned \textit{multi}-line formula block  (one equation tag for each line) \\
+            \bs begin\{multline\} \dots{} \bs end\{multline\} & defines a non-aligned \textit{multi}-line formula block (one equation tag for all lines)
         \end{cmdtab}
 
     \subsection{Mathematical notations}
@@ -276,7 +281,11 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             \bs in \bs notin & (not) in set: $ \in~ \notin $ \\
             \bs infty & infinity: $ \infty $ \\
             \bs phantom \{ \} & spacing in size of argument \\
-            \bs mathrm\{ \} & roman font in forumal \\
+            \bs mathrm\{ \} & roman font in formula \\
+            \bs text\{ \} & regular $ \text{text} $ in formula \\
+            \bs mathbf\{ \} & bold text in formula \\
+            \bs mathit\{ \} & italic text in formula \\
+            \bs mathbb\{N C R\} & math bold: $ \mathbb{N C R} $, requires \texttt{asmfonts} package \\
             \minibox{\bs leftarrow \bs rightarrow \\ \bs longleftarrow \bs leftrightarrow \\ \bs overrightarrow\{x\}} & arrows: $ \leftarrow~ \rightarrow~ \longleftarrow~ \leftrightarrow~ \overrightarrow{x} $
         \end{cmdtab}
 
@@ -292,6 +301,20 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             \bs negmedspace & $ \rightarrow \negmedspace \leftarrow $ \\
             \bs negthickspace & $ \rightarrow \negthickspace \leftarrow $ \\
         \end{cmdtabx}
+
+\section{Hyphenation}
+    \begin{itemize}
+        \item Automatic hyphenation can be prevented using \texttt{\~} or \texttt{\bs mbox\{ \}}.
+        \item Manual hypenation can be inserted with \texttt{\bs -}.
+        \item Global hypenation rule can be defined using \texttt{\bs hypenation\{ \}}, eg. \texttt{\bs hypenation\{hy-phen-ate\}}.
+    \end{itemize}
+
+    \subsection{Hypens, dashes}
+        \begin{cmdtabxyy}{Notation}{Dash}{}
+            - & hypen & \minibox{-} \\
+            \bs textendash & dash & \textendash \\
+            \$-\$ & minus sign & $-$
+        \end{cmdtabxyy}
 
 \section{Font}
     \subsection{Family and style}
@@ -423,11 +446,12 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
     \begin{cmdtab}
         \bs begin\{itemize\} \dots \bs end\{itemize\} & defines enumeration block \textit{without} numbering \\
         \bs begin\{enumerations\} \dots \bs end\{enumerations\} & defines enumeration block \textit{with} numbering (use of \texttt{\bs label} is possible) \\
+        \bs begin\{description\} \dots \bs end\{description\} & defines a descriptive enumeration block \\
         \bs setlength\bs itemsep\{spacing\} & controls spacing between items \\
-        \bs item[icon] & starts an item
+        \bs item[icon/description] & starts an item with the specified icon/description in case of \texttt{itemize}/\texttt{description}
     \end{cmdtab}
 
-\section{Boxes}
+\section{Boxes, frames}
 
     \begin{cmdtab}
         \bs fbox\{text\} & \fbox{\footnotesize simple framed box} \\
@@ -471,10 +495,13 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
 
 \section{Graphics}
     \label{section:graphics}
-    *.pdf, *.jpg, *.png files can be included with \texttt{\bs includegraphics[options]\{image\}}.
+    With PDF\LaTeX{} *.pdf, *.jpg and *.png files can be included with \texttt{\bs includegraphics[options]\{image\}}. For floating graphics see \fullref{section:floating_environments}.
 
     \begin{cmdtabx}{Option}{Note}
         viewport=x1 y2 x2 y2, clip & cropping (in $ \frac{1}{72} $ inch, relative to bottom left corner) \\
+        scale= & scales the image by the specified factor \\
+        width=, height= & specifies the size \\
+        angle= & specifies the rotation angle (counterclockwise)
     \end{cmdtabx}
     
     \subsection{Annotations}
@@ -499,6 +526,10 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
 \end{overpic}
         \end{lstlisting}
 
+    \subsection{Drawings}
+        Drawings can be created with the \texttt{picture} environment. The package \texttt{tikz} provides
+        extended features. Functions can be drawn with GNU Plot.
+
 \section{Tables}
     For basic tables no packages need to be included. However the packages \texttt{tabularx}, \texttt{array} and \texttt{longtable} provide extended features.
 
@@ -508,7 +539,9 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
         \minibox{ \bs begin\{array\}[position]\{column\_declarations\} \\ \dots \bs end\{array*\} } & defines a table (for formulas) \\
         \minibox{ \bs begin\{tabbing\} \\ \dots \bs end\{tabbing\} } & defines a tabulator-based table \\
         \minibox{ \bs begin\{longtable\}[position]\{column\_declarations\} \\ \dots \bs end\{longtable\} } & defines a table which is able to expand multiple pages (can not be used in a floating environment) \\
-        \bs listoftables & prints the list of tables
+        \bs listoftables & prints the list of tables \\
+        \bs multicolumn\{count\}\{position\}\{content\} & allows content to span multiple columns \\
+        \bs cline\{start\_col-end\_col\} & inserts a horizontal line which spans multiple columns
     \end{cmdtab}
     
     \subsection{Column definitions}
@@ -516,7 +549,7 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             l, r, c & specifies the alignment \\
             p\{width\} & specifies width \\
             | & defines vertical line between columns \\
-            @\{col\_spacing\} & sets the column spacing \\
+            @\{col\_divider\} & sets the column divider \\
             *\{count\}\{definition\} & inserts \texttt{definition} \texttt{count} times
         \end{cmdtabx}
     
@@ -782,6 +815,12 @@ Source code is available at \href{https://github.com/Martchus/latex-summary}{htt
             book & scrbook \\
             letter & scrlettr
         \end{cmdtabxxxx}
+
+    \subsection{Packages}
+        \begin{cmdtabx}{Packages}{Provides}
+            \bs scrdate & \texttt{\bs todaysname}, \texttt{\bs nameday\{name\}} \\
+            \bs scrtime & \texttt{\bs thistime[separator]}
+        \end{cmdtabx}
 
 \section{PDF tweaks}
     \label{section:pdf_tweaks}
